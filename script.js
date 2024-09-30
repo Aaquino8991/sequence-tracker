@@ -1,33 +1,42 @@
-const randomizeBtn = document.querySelector('.randomize-btn')
+const randomizeBtn = document.querySelector('.randomize-btn');
 const grindList = [];
-const cubeList = [];
+let shapingList = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   fetch('./db.json')
-  .then(res => res.json())
-  .then(data => {
-    const employees = data.employees;
+    .then((res) => res.json())
+    .then((data) => {
+      const employees = data.employees;
 
-    employees.forEach(employee => {
-      
-      if (employee.cube) {
-        cubeList.push(employee.first_name)
-      }
-      // create an algorithm to rotate cube operators and use splice() or ...rest method to add trailing operator to grinding.
+      employees.forEach((employee) => {
+        if (employee.cube) {
+          shapingList.push(employee.first_name);
+        } else {
+          grindList.push(employee.first_name);
+        }
+      });
     });
+});
+
+randomizeBtn.addEventListener('click', () => {
+  if (shapingList.length > 0) {
+    const lastElement = shapingList.pop();
+    shapingList.unshift(lastElement);
+  }
+
+  const shapingCells = document.querySelectorAll('.cube-operator-name');
+  shapingCells.forEach((cell, index) => {
+    cell.textContent = shapingList[index];
   });
 
-  randomizeBtn.addEventListener('click', () => {
-    const shuffledGrinding = shuffleArray([...grindList]);
-    const operatorCells = document.querySelectorAll('.operator-name');
+  const shuffledGrinding = shuffleArray([...grindList, shapingList[shapingList.length - 1]]);
+  const grindingCells = document.querySelectorAll('.operator-name');
 
-    operatorCells.forEach((cell, index) => {
-      if (shuffledGrinding[index]) {
-        cell.textContent = shuffledGrinding[index];
-      }
-    })
+  grindingCells.forEach((cell, index) => {
+    if (shuffledGrinding[index]) {
+      cell.textContent = shuffledGrinding[index];
+    }
   });
-
 });
 
 function shuffleArray(array) {
