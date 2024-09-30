@@ -32,13 +32,18 @@ h1 {
   font-size: 1.5rem;
   text-decoration: underline;
   margin-top: 15px;
+  margin-bottom: 0;
 }
 
 table {
-  margin-top: 20px;
+  margin-top: 0px;
   width: 400px;
   border-collapse: collapse;
   text-align: center;
+}
+
+.misc-table {
+  margin-top: 10px;
 }
 
 th, td {
